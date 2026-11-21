@@ -1486,7 +1486,10 @@ body[data-theme="light"] .theme-toggle { color: #4f46e5; border-color: rgba(79,7
 @media (max-width: 600px) {
   .announcement { height: 34px; font-size: 11px; }
   .navbar.topbar { padding: 10px 16px; }
-  .navbar.topbar .brand span:last-child { display: none; }
+  .navbar.topbar .brand span:last-child .navbar.topbar .brand span:last-child {
+  display: inline-block;
+  font-size: 14px;
+}
   .navbar.topbar .brand-mark { width: 38px; height: 38px; }
   .navbar.topbar nav { display: flex; }
   .navbar.topbar nav a { display: none; }

@@ -34,7 +34,7 @@
       <div class="hero-content">
         <span class="eyebrow"><i class="fa-solid fa-book-open"></i> مكتبة الشهادة السودانية</span>
         <h1>الحفار السوداني</h1>
-        <p>نقطة انطلاقك لموادك الدراسية: تعلّم الدروس مرتبة في أبواب، ثم اختبر فهمك في نهاية كل باب.</p>
+        <p>نقطة انطلاقك لموادك الدراسية: تعلّم كل درس بشرحه، راجع أبواب المادة، ثم اختبر فهمك في نهاية كل باب.</p>
         <a class="primary-button" href="#subjects"><span>استعرض المواد</span><i class="fa-solid fa-chevron-down"></i></a>
       </div>
       <div class="hero-showcase" aria-hidden="true">
@@ -60,7 +60,7 @@
       <div class="section-heading">
         <div class="section-head">
           <h2>المواد الدراسية</h2>
-          <p>اختر المادة لعرض دروسها واختباراتها، من دون روابط لملفات PDF.</p>
+          <p>اختر المادة لفتح صفحتها، واستعرض الشروح مرتبة حسب الأبواب والدروس.</p>
         </div>
       </div>
 
@@ -142,16 +142,19 @@
 
     </section>
 
-    <dialog class="study-dialog" id="studyDialog" aria-labelledby="studyTitle">
-      <div class="study-dialog-header">
+    <section class="study-page" id="studyPage" hidden aria-labelledby="studyTitle">
+      <div class="study-page-header">
         <div>
-          <span class="eyebrow" id="studyMode">مراجعة المادة</span>
-          <h2 id="studyTitle"></h2>
+          <span class="eyebrow" id="studyMode">الأبواب والدروس</span>
+          <h1 id="studyTitle"></h1>
         </div>
-        <button class="study-close" id="closeStudyDialog" type="button" aria-label="إغلاق">×</button>
+        <div class="study-page-actions">
+          <a class="lesson-nav-button secondary" id="studyPdfLink" target="_blank" rel="noopener">الكتاب الدراسي PDF</a>
+          <button class="lesson-nav-button secondary" id="backToSubjects" type="button">العودة إلى المواد</button>
+        </div>
       </div>
       <div id="studyContent"></div>
-    </dialog>
+    </section>
 
     <section class="contact" id="contact">
       <div class="contact-copy">

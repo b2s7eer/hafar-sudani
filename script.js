@@ -1,10 +1,31 @@
 const cards = [...document.querySelectorAll(".subject-card")];
 const filters = document.querySelectorAll(".filter");
-const studyDialog = document.querySelector("#studyDialog");
+const studyPage = document.querySelector("#studyPage");
 const studyTitle = document.querySelector("#studyTitle");
 const studyMode = document.querySelector("#studyMode");
 const studyContent = document.querySelector("#studyContent");
-const closeStudyDialog = document.querySelector("#closeStudyDialog");
+const studyPdfLink = document.querySelector("#studyPdfLink");
+const backToSubjects = document.querySelector("#backToSubjects");
+const homeSections = [...document.querySelectorAll(".hero, .subjects-section, .contact")];
+const originalDocumentTitle = document.title;
+const coursePdfs = {
+  "التاريخ": "المواد الادبيه/التاريخ.pdf",
+  "الجغرافيا": "المواد الادبيه/الجغرافيا.pdf",
+  "الدراسات الإسلامية": "المواد الادبيه/الدراسات إسلامية.pdf",
+  "الأدب والمطالعة": "المواد الاساسيه/الادب و المطالعه.pdf",
+  "البلاغة والتعبير": "المواد الاساسيه/البلاغة والتعبير.pdf",
+  "التربية الإسلامية": "المواد الاساسيه/التربية الإسلامية.pdf",
+  "الرياضيات الأساسية": "المواد الاساسيه/الرياضيات الأساسية.pdf",
+  "اللغة الانجليزية": "المواد الاساسيه/اللغة الانجليزية.pdf",
+  "قواعد النحو": "المواد الاساسيه/قواعد النحو.pdf",
+  "الأحياء": "المواد العلميه/الاحياء.pdf",
+  "الحاسوب": "المواد العلميه/الحاسوب.pdf",
+  "الرياضيات المتخصصة ١": "المواد العلميه/الرياضيات المتخصصة ١.pdf",
+  "الرياضيات المتخصصة ٢": "المواد العلميه/الرياضيات المتخصصة 2.pdf",
+  "الفيزياء": "المواد العلميه/الفيزياء.pdf",
+  "الكيمياء": "المواد العلميه/الكيمياء.pdf",
+  "العلوم الهندسية": "المواد العلميه/العلوم الهندسية.pdf"
+};
 
 document.body.dataset.theme = "light";
 
@@ -17,25 +38,66 @@ function addStudyActions(card) {
   button.className = "study-action";
   button.type = "button";
   button.innerHTML = '<i class="fa-solid fa-arrow-left-long" aria-hidden="true"></i> دخول المادة';
-  button.addEventListener("click", () => openStudyDialog(subject));
+  button.addEventListener("click", () => {
+    window.location.hash = `study/${encodeURIComponent(subject)}`;
+  });
   actions.append(button);
   card.append(actions);
 }
 
-function openStudyDialog(subject) {
+function openStudyPage(subject) {
   if (!window.studyData[subject] || !window.lessonData[subject]) {
     throw new Error(`Course content is missing for: ${subject}`);
   }
 
   studyTitle.textContent = subject;
   studyMode.textContent = "الأبواب والدروس";
+  studyPdfLink.href = coursePdfs[subject];
+  studyPdfLink.setAttribute("aria-label", `فتح كتاب ${subject} بصيغة PDF في تبويب جديد`);
   renderCourse(subject);
-  studyDialog.showModal();
+  homeSections.forEach((section) => { section.hidden = true; });
+  studyPage.hidden = false;
+  document.title = `${subject} | الحفار السوداني`;
+  window.scrollTo(0, 0);
+}
+
+function showHomePage() {
+  studyPage.hidden = true;
+  homeSections.forEach((section) => { section.hidden = false; });
+  document.title = originalDocumentTitle;
+}
+
+function renderRoute() {
+  const route = window.location.hash;
+  if (!route.startsWith("#study/")) {
+    showHomePage();
+    return;
+  }
+
+  const subject = decodeURIComponent(route.slice("#study/".length));
+  openStudyPage(subject);
 }
 
 function renderCourse(subject) {
   studyContent.replaceChildren();
   const chapters = window.lessonData[subject];
+  const summary = window.studyData[subject].summary;
+
+  if (Array.isArray(summary) && summary.length > 0) {
+    const overview = document.createElement("section");
+    overview.className = "course-summary";
+    const heading = document.createElement("h2");
+    heading.textContent = "نظرة عامة على المادة";
+    const list = document.createElement("ul");
+    list.className = "summary-list";
+    summary.forEach((point) => {
+      const item = document.createElement("li");
+      item.textContent = point;
+      list.append(item);
+    });
+    overview.append(heading, list);
+    studyContent.append(overview);
+  }
 
   chapters.forEach((chapter, chapterIndex) => {
     const section = document.createElement("section");
@@ -60,7 +122,7 @@ function renderCourse(subject) {
       lessonButton.addEventListener("click", () => {
         studyMode.textContent = "شرح الدرس";
         renderLesson(subject, chapterIndex, lessonIndex);
-        studyDialog.scrollTop = 0;
+        window.scrollTo(0, 0);
       });
       section.append(lessonButton);
     });
@@ -72,7 +134,7 @@ function renderCourse(subject) {
     quizButton.addEventListener("click", () => {
       studyMode.textContent = `اختبار ${chapter.title}`;
       renderQuiz({ subject, chapterIndex, questionIndex: 0, selectedIndex: null, score: 0 });
-      studyDialog.scrollTop = 0;
+      window.scrollTo(0, 0);
     });
     section.append(quizButton);
     studyContent.append(section);
@@ -104,7 +166,7 @@ function renderCourse(subject) {
       button.addEventListener("click", () => {
         studyMode.textContent = "دراسة قصيدة";
         renderPoemGuide(guide);
-        studyDialog.scrollTop = 0;
+        window.scrollTo(0, 0);
       });
       section.append(button);
     });
@@ -134,7 +196,7 @@ function renderCourse(subject) {
     button.addEventListener("click", () => {
       studyMode.textContent = "سورة النور";
       renderSurahAnNur();
-      studyDialog.scrollTop = 0;
+      window.scrollTo(0, 0);
     });
     section.append(heading, button);
     studyContent.append(section);
@@ -162,7 +224,7 @@ function renderCourse(subject) {
     button.addEventListener("click", () => {
       studyMode.textContent = "سورة محمد";
       renderSurahMuhammad();
-      studyDialog.scrollTop = 0;
+      window.scrollTo(0, 0);
     });
     section.append(heading, button);
     studyContent.append(section);
@@ -224,7 +286,7 @@ function renderPoemGuide(guide) {
   back.addEventListener("click", () => {
     studyMode.textContent = "الأبواب والدروس";
     renderCourse("الأدب والمطالعة");
-    studyDialog.scrollTop = 0;
+    window.scrollTo(0, 0);
   });
   const controls = document.createElement("div");
   controls.className = "lesson-controls";
@@ -273,7 +335,7 @@ function renderSurahAnNur() {
   back.addEventListener("click", () => {
     studyMode.textContent = "الأبواب والدروس";
     renderCourse("التربية الإسلامية");
-    studyDialog.scrollTop = 0;
+    window.scrollTo(0, 0);
   });
   const controls = document.createElement("div");
   controls.className = "lesson-controls";
@@ -322,7 +384,7 @@ function renderSurahMuhammad() {
   back.addEventListener("click", () => {
     studyMode.textContent = "الأبواب والدروس";
     renderCourse("الدراسات الإسلامية");
-    studyDialog.scrollTop = 0;
+    window.scrollTo(0, 0);
   });
   const controls = document.createElement("div");
   controls.className = "lesson-controls";
@@ -394,7 +456,7 @@ function renderLesson(subject, chapterIndex, lessonIndex) {
   previous.addEventListener("click", () => {
     studyMode.textContent = "شرح الدرس";
     renderLesson(subject, chapterIndex, lessonIndex - 1);
-    studyDialog.scrollTop = 0;
+    window.scrollTo(0, 0);
   });
 
   const backToChapter = document.createElement("button");
@@ -415,7 +477,7 @@ function renderLesson(subject, chapterIndex, lessonIndex) {
   next.addEventListener("click", () => {
     studyMode.textContent = "شرح الدرس";
     renderLesson(subject, chapterIndex, lessonIndex + 1);
-    studyDialog.scrollTop = 0;
+    window.scrollTo(0, 0);
   });
 
   controls.append(previous, backToChapter, next);
@@ -558,8 +620,12 @@ filters.forEach((button) => {
   });
 });
 
-closeStudyDialog.addEventListener("click", () => studyDialog.close());
-studyDialog.addEventListener("click", (event) => {
-  if (event.target === studyDialog) studyDialog.close();
+backToSubjects.addEventListener("click", () => {
+  window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#subjects`);
+  showHomePage();
+  document.querySelector("#subjects").scrollIntoView({ block: "start" });
 });
+
+window.addEventListener("hashchange", renderRoute);
+renderRoute();
 

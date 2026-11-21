@@ -11,6 +11,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -360,7 +361,7 @@ body {
 .contact-circle svg { width:25px; height:25px; fill:currentColor; }
 .contact-circle span { font-size:10px; font-weight:700; }
 .whatsapp { background:#1f9d55; }
-.instagram { background:linear-gradient(135deg,#7d42b5,#d13f87,#e7a23a); }
+.instagram { background:linear-gradient(135deg,#e7a23a,#d13f87,#e7a23a); }
 .contact-button { background: transparent; color: var(--text); border:1px solid rgba(246,183,60,.45); }
 .contact-button span { color: var(--gold); }
 
@@ -905,48 +906,42 @@ body[data-theme="light"] footer { border-top-color: rgba(59,130,196,.16); }
 }
 .chapter-quiz-button:hover { filter: brightness(1.08); }
 
-.study-dialog {
-  width: min(680px, calc(100% - 28px));
-  max-width: 680px;
-  max-height: min(82vh, 760px);
-  padding: clamp(20px, 4vw, 34px);
-  overflow: auto;
+.study-page {
+  width: min(1080px, calc(100% - 32px));
+  min-height: 65vh;
+  margin: 32px auto 64px;
+  padding: clamp(20px, 4vw, 42px);
   border: 1px solid var(--line);
-  border-radius: 18px;
-  background: #1e1e1e;
+  border-radius: 20px;
+  background: #fffdf8;
   color: var(--text);
-  box-shadow: 0 24px 80px rgba(0,0,0,.38);
+  box-shadow: 0 18px 48px rgba(83,61,45,.1);
 }
-.study-dialog[open] { animation: study-dialog-in .18s ease-out; }
-@keyframes study-dialog-in {
-  from { opacity: 0; transform: translateY(8px) scale(.99); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.study-dialog::backdrop { background: rgba(0,0,0,.68); backdrop-filter: blur(4px); }
-.study-dialog-header {
+.study-page-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 18px;
-  margin-bottom: 18px;
-  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+  gap: 18px;
+  padding-bottom: 22px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(107,79,58,.15);
 }
-.study-dialog-header .eyebrow { margin-bottom: 3px; }
-.study-dialog-header h2 { font-size: 1.45rem; }
-.study-close {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 auto;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--muted);
-  font-size: 25px;
-  line-height: 1;
-  cursor: pointer;
+.study-page-header .eyebrow { margin-bottom: 4px; }
+.study-page-header h1 {
+  margin: 0;
+  color: var(--brown-900, #39291f);
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
 }
-.study-close:hover { color: var(--text); border-color: var(--gold); }
+.study-page-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.course-summary {
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  border: 1px solid rgba(107,79,58,.14);
+  border-radius: 14px;
+  background: #f8f2e7;
+}
+.course-summary h2 { margin: 0 0 12px; font-size: 1.15rem; }
 .summary-list { display: grid; gap: 12px; padding: 0 22px 0 0; margin: 0; }
 .summary-list li { padding-inline-start: 4px; color: var(--muted); line-height: 1.8; }
 .summary-note { margin-top: 20px; color: var(--muted); font-size: .88rem; }
@@ -990,11 +985,6 @@ body[data-theme="light"] footer { border-top-color: rgba(59,130,196,.16); }
 .quiz-result { text-align: center; padding: 18px 0; }
 .quiz-result-score { margin: 10px 0; color: var(--gold); font-size: 2rem; font-weight: 900; }
 
-body[data-theme="light"] .study-dialog {
-  background: #fff;
-  box-shadow: 0 24px 80px rgba(25,70,110,.2);
-}
-body[data-theme="light"] .study-dialog::backdrop { background: rgba(25,55,85,.42); }
 body[data-theme="light"] .study-action {
   border-color: rgba(67,143,212,.28);
   background: rgba(98,174,245,.09);
@@ -1728,8 +1718,8 @@ body[data-theme="light"] .contact-circle {
 .contact-circle:hover,
 body[data-theme="light"] .contact-circle:hover { color: #f5e7cd; border-color: rgba(255,250,241,.38); }
 
-.study-dialog,
-body[data-theme="light"] .study-dialog {
+.study-page,
+body[data-theme="light"] .study-page {
   border-color: rgba(107,79,58,.15);
   background: #fffdf8;
   color: var(--brown-900);

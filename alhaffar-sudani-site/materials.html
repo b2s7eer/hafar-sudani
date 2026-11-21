@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المواد الدراسية | الحفار السوداني</title>
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('hafar-theme'); } catch (e) {}
+    document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="materials">
+
+<div class="grid-overlay"></div>
+<div id="top"></div>
+
+<main>
+  <div class="hero compact">
+    <div class="eyebrow"><i class="fa-solid fa-layer-group"></i> المواد الدراسية</div>
+    <h1>اختر <span class="accent">مادتك</span></h1>
+    <p>المواد مقسّمة إلى أساسية وعلمية وأدبية. لكل مادة ملخص مركّز واختبار تفاعلي.</p>
+  </div>
+
+  <section>
+    <div class="tabs" id="cat-tabs" role="tablist"></div>
+    <div class="grid" id="subject-list"></div>
+    <noscript><p class="empty">يحتاج الموقع إلى تفعيل جافاسكربت لعرض المواد.</p></noscript>
+  </section>
+</main>
+
+<div id="foot"></div>
+
+<script src="assets/data-core.js"></script>
+<script src="assets/data-science.js"></script>
+<script src="assets/data-arts.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
